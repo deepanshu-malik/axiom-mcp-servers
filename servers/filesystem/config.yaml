@@ -1,28 +1,86 @@
 # Filesystem MCP Server Configuration
+# -----------------------------------
+# Configure which directories this server can access.
+# Security: Only files within allowed_directories are accessible.
 
 allowed_directories:
+  # Add your directories here (supports ~ for home directory)
   - ~/Documents
   - ~/projects
+  # Example: Add the axiom project directory
+  # - ~/axiom
 
 ignore_patterns:
+  # Directories to skip
   - "*/node_modules/*"
   - "*/.git/*"
   - "*/__pycache__/*"
-  - "*.pyc"
-  - "*/.env"
   - "*/venv/*"
   - "*/.venv/*"
+  - "*/.tox/*"
+  - "*/.pytest_cache/*"
+  - "*/.mypy_cache/*"
+  - "*/.ruff_cache/*"
+  - "*/dist/*"
+  - "*/build/*"
+  - "*/.eggs/*"
+  - "*.egg-info/*"
+
+  # Files to skip
+  - "*.pyc"
+  - "*.pyo"
+  - "*.so"
+  - "*.dylib"
+  - "*/.env"
+  - "*/.env.*"
+  - "*.lock"
+  - "package-lock.json"
+  - "yarn.lock"
 
 supported_extensions:
+  # Programming languages
   - .py
-  - .md
-  - .txt
   - .js
   - .ts
+  - .jsx
+  - .tsx
+  - .go
+  - .rs
+  - .java
+  - .c
+  - .cpp
+  - .h
+  - .hpp
+  - .rb
+  - .php
+
+  # Markup and data
+  - .md
+  - .txt
+  - .rst
   - .json
   - .yaml
   - .yml
+  - .toml
+  - .xml
+  - .csv
+
+  # Web
   - .html
   - .css
+  - .scss
+  - .sass
+  - .less
+
+  # Config and scripts
   - .sh
-  - .toml
+  - .bash
+  - .zsh
+  - .ini
+  - .cfg
+  - .conf
+  - .env.example
+
+  # Documentation
+  - .tex
+  - .bib
