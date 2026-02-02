@@ -1,0 +1,28 @@
+# Filesystem MCP Server Configuration
+
+allowed_directories:
+  - ~/Documents
+  - ~/projects
+
+ignore_patterns:
+  - "*/node_modules/*"
+  - "*/.git/*"
+  - "*/__pycache__/*"
+  - "*.pyc"
+  - "*/.env"
+  - "*/venv/*"
+  - "*/.venv/*"
+
+supported_extensions:
+  - .py
+  - .md
+  - .txt
+  - .js
+  - .ts
+  - .json
+  - .yaml
+  - .yml
+  - .html
+  - .css
+  - .sh
+  - .toml

@@ -1,0 +1,12 @@
+# GitHub MCP Server Configuration
+
+# GitHub token from environment variable
+github_token: ${GITHUB_TOKEN}
+
+# Default repositories to expose
+default_repos:
+  # - owner/repo-name
+
+# Caching settings
+cache_enabled: true
+cache_ttl_hours: 24
