@@ -2,56 +2,135 @@
 
 MCP (Model Context Protocol) server implementations for Axiom personal knowledge assistant.
 
-## Servers
+## Server Status
 
-### Filesystem Server
+| Server | Status | Description |
+|--------|--------|-------------|
+| Filesystem | ✅ Complete | Local file access |
+| GitHub | 🔲 Phase 6 | GitHub repository access |
+| Google Drive | 🔲 Future | Google Drive access |
 
-Exposes local files through the MCP protocol.
+## Filesystem Server (Complete)
 
-**Features:**
-- List files in allowed directories
-- Read file contents
-- Search files by name/content
+Full MCP server for local filesystem access using FastMCP.
 
-**Usage:**
+### Features
+
+**Tools:**
+| Tool | Description |
+|------|-------------|
+| `list_allowed_directories` | Show configured directories |
+| `list_directory` | Browse files with optional recursion |
+| `read_file` | Get file contents with metadata |
+| `search_files` | Find files by pattern and/or content |
+| `get_file_info` | Get file metadata |
+
+**Resources:**
+| URI | Description |
+|-----|-------------|
+| `file:///{path}` | Read file by absolute path |
+
+**Security:**
+- Configurable allowed directories
+- Ignore patterns (node_modules, .git, __pycache__, etc.)
+- Supported extensions whitelist
+- Read-only access only
+
+### Quick Start
+
 ```bash
-cd servers/filesystem
-python server.py
-```
+cd axiom-mcp-servers
 
-### GitHub Server
-
-Access GitHub repositories through MCP.
-
-**Features:**
-- List configured repositories
-- Read files from repos
-- Search code in repos
-
-**Usage:**
-```bash
-cd servers/github
-python server.py
-```
-
-## Setup
-
-```bash
 # Create virtual environment
 python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+source .venv/bin/activate
 
 # Install dependencies
 pip install -e ".[dev]"
+
+# Run tests
+cd servers/filesystem
+python -m pytest test_server.py -v
+
+# Start server
+python server.py
 ```
 
-## Testing
+### Configuration
 
-```bash
-# Test with MCP inspector
-mcp-inspector python servers/filesystem/server.py
+Edit `servers/filesystem/config.yaml`:
+
+```yaml
+allowed_directories:
+  - ~/Documents
+  - ~/projects
+
+ignore_patterns:
+  - "*/node_modules/*"
+  - "*/.git/*"
+
+supported_extensions:
+  - .py
+  - .md
+  - .json
 ```
 
-## Configuration
+### Use with MCP Clients
 
-Each server has its own `config.yaml` file. See the individual server directories for configuration options.
+Add to your MCP client configuration (e.g., Claude Desktop):
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "python",
+      "args": ["/path/to/axiom-mcp-servers/servers/filesystem/server.py"]
+    }
+  }
+}
+```
+
+## GitHub Server (Phase 6)
+
+Placeholder for GitHub repository access. Will be implemented in Phase 6.
+
+**Planned Features:**
+- List configured repositories
+- Read files from repos
+- Search code in repos
+- Get repository tree structure
+
+## Project Structure
+
+```
+axiom-mcp-servers/
+├── shared/                    # Common utilities
+│   ├── base_server.py         # Abstract base class
+│   └── utils.py               # File type detection
+│
+├── servers/
+│   ├── filesystem/            # ✅ Complete
+│   │   ├── server.py          # MCP server implementation
+│   │   ├── config.yaml        # Configuration
+│   │   ├── test_server.py     # Unit tests
+│   │   └── README.md          # Documentation
+│   │
+│   ├── github/                # 🔲 Phase 6
+│   │   ├── server.py          # Placeholder
+│   │   └── config.yaml        # Configuration
+│   │
+│   └── gdrive/                # 🔲 Future
+│       └── README.md          # Placeholder
+│
+└── tests/
+    └── integration/
+```
+
+## Related Projects
+
+- [axiom-core](https://github.com/deepanshu-malik/axiom-core) - FastAPI backend
+- [axiom-experiments](https://github.com/deepanshu-malik/axiom-experiments) - Model comparison notebooks
+
+## License
+
+MIT License
